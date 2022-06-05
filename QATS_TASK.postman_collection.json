@@ -1,0 +1,445 @@
+{
+	"info": {
+		"_postman_id": "8eda03d8-a6c3-442c-82c1-4f933a6059a5",
+		"name": "QATS_TASK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test Case 1 – GET - List Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Send a proper Request\", function () {",
+							"    pm.expect(pm.response).to.have.status(200);",
+							"}); ",
+							"",
+							"pm.test(\"Assert received data in Response\", () => {",
+							"    const body = pm.response.json();",
+							"",
+							"    pm.expect(body).to.have.property('total'); // či body obsahuje položku property",
+							"    pm.expect(body.data[0].last_name).to.eq(\"Lawson\"); // či 1. objekt obsahuje ...",
+							"    pm.expect(body.data[1].last_name).to.eq(\"Ferguson\"); // či 2. objekt obsahuje ...",
+							"});",
+							"",
+							"pm.test(\"Count number of received users\", function () {",
+							"    const body = pm.response.json();",
+							"",
+							"    //ošetrenie získania počtu stránok",
+							"    let currentPage = body.page - 1; ",
+							"    ",
+							"    if (currentPage == 0) { ",
+							"        // ak bude počet stránok 0 tak sa vyplní 1 inak by nezbehol výpočet správne",
+							"        currentPage = 1;",
+							"    }",
+							"",
+							"    // vyrátaný počet stránok * počet na stránku + počet vrátených objektov na poslednej stránke z response vs. total objektov",
+							"    pm.expect(currentPage * body.per_page + body.data.length).to.eq(body.total); ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://echo.getpostman.com/status/200",
+							"protocol": "https",
+							"host": [
+								"echo",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"status",
+								"200"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "javascript",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "",
+							"name": "Access-Control-Allow-Credentials",
+							"description": ""
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "",
+							"name": "Access-Control-Allow-Headers",
+							"description": ""
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "",
+							"name": "Access-Control-Allow-Methods",
+							"description": ""
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "",
+							"name": "Access-Control-Allow-Origin",
+							"description": ""
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": ""
+						},
+						{
+							"key": "Content-Length",
+							"value": "14",
+							"name": "Content-Length",
+							"description": ""
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": ""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 31 Mar 2016 11:58:47 GMT",
+							"name": "Date",
+							"description": ""
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e-1056260003\"",
+							"name": "ETag",
+							"description": ""
+						},
+						{
+							"key": "Server",
+							"value": "nginx/1.6.2",
+							"name": "Server",
+							"description": ""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding",
+							"name": "Vary",
+							"description": ""
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Sails <sailsjs.org>",
+							"name": "X-Powered-By",
+							"description": ""
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Fri Apr 15 2016 13:14:58 GMT+0200 (stredoeurópsky letný čas)",
+							"hostOnly": false,
+							"httpOnly": false,
+							"domain": ".getpostman.com",
+							"path": "/",
+							"secure": false,
+							"session": false,
+							"value": "yes",
+							"key": "getpostmanlogin"
+						},
+						{
+							"expires": "Fri Apr 15 2016 13:14:58 GMT+0200 (stredoeurópsky letný čas)",
+							"hostOnly": false,
+							"httpOnly": false,
+							"domain": ".getpostman.com",
+							"path": "/",
+							"secure": false,
+							"session": false,
+							"value": "df0c0256028d7ec4d641f766104a9571a8e249685bbc667d7cee030bbf44d3209495c70c03248e31e678a93812591d5e12187a8e99bf6bc5e80c40903f6ff6226938f24e413c0ffa613a7372064ec44a8594e8d3ede6945e34394f369573feeebc4a73a3e24b8c9ac18a53704addb5fd3f71f1ede488ff551feb059e9c1fb208164814e45e0312c4df8ea6e83c26702f42ae634c6afbe82d57c857bbf5598b5527961c1c28688dc2580070a4389f0cf4ec0a179b5b9c11b2ecbaa5460d374065bf5c7a3add9505df0fa89acb9f227f05ed2d4c6b58c39d6d728bd49f6f323ae67d4a75882aa7682f5d6fc5b981ba411d94aa93970bfaefa1953a73e440d50d012b5f288975c888e2345ee7777e746fb5aed3a7b2dbc087c6456621aa78c24a3c17c5f96cf59844933249a352f631e2008cffac6faf06d0e253dcc01cf0067bf56c1fbc5ed61fec1861b60c5accf35ffc2e56154a113004fa1db9d7171c3af8fc063918554092f5",
+							"key": "postman.sid"
+						},
+						{
+							"expires": "Sat Mar 31 2018 13:16:21 GMT+0200 (stredoeurópsky letný čas)",
+							"hostOnly": false,
+							"httpOnly": false,
+							"domain": ".echo.getpostman.com",
+							"path": "/",
+							"secure": false,
+							"session": false,
+							"value": "GA1.3.1703443399.1459422978",
+							"key": "_ga"
+						},
+						{
+							"expires": "Invalid Date",
+							"hostOnly": true,
+							"httpOnly": true,
+							"domain": "echo.getpostman.com",
+							"path": "/",
+							"secure": false,
+							"session": true,
+							"value": "s%3AvuHU0EKeDbyNjVrEc7U30dMPzVu8CRaD.GOV1H9olcVzXqrwqP%2BC%2B6MVj2UczXivcN00jgPoDYfs",
+							"key": "sails.sid"
+						}
+					],
+					"body": "{\"status\":200}"
+				}
+			]
+		},
+		{
+			"name": "Test Case 2- POST – Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Send proper request\", function () {",
+							"    pm.expect(pm.response).to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Assert correct data in received response\", function () {",
+							"    const body = pm.response.json();",
+							"",
+							"    // js package pre parsovanie, validaciu a manipulaciu so zobrazenim dátumu a času",
+							"    const moment = require('moment');",
+							"",
+							"    pm.expect(pm.response).to.have.status(201);",
+							"    pm.expect(body).to.have.property('id');",
+							"",
+							"    // vyžiadany moment package - objekt s dátumom a časom pre overenie roku",
+							"    pm.expect(moment(body.createdAt).year).to.be.eq(moment().year); ",
+							"});",
+							"",
+							"pm.test(\"Assert whether Response time was less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/javascript",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/C:/Users/kika/Desktop/users.json"
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://echo.getpostman.com/status/200",
+							"protocol": "https",
+							"host": [
+								"echo",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"status",
+								"200"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "javascript",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "",
+							"name": "Access-Control-Allow-Credentials",
+							"description": ""
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "",
+							"name": "Access-Control-Allow-Headers",
+							"description": ""
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "",
+							"name": "Access-Control-Allow-Methods",
+							"description": ""
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "",
+							"name": "Access-Control-Allow-Origin",
+							"description": ""
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": ""
+						},
+						{
+							"key": "Content-Length",
+							"value": "14",
+							"name": "Content-Length",
+							"description": ""
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": ""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 31 Mar 2016 11:58:47 GMT",
+							"name": "Date",
+							"description": ""
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e-1056260003\"",
+							"name": "ETag",
+							"description": ""
+						},
+						{
+							"key": "Server",
+							"value": "nginx/1.6.2",
+							"name": "Server",
+							"description": ""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding",
+							"name": "Vary",
+							"description": ""
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Sails <sailsjs.org>",
+							"name": "X-Powered-By",
+							"description": ""
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Fri Apr 15 2016 13:14:58 GMT+0200 (stredoeurópsky letný čas)",
+							"hostOnly": false,
+							"httpOnly": false,
+							"domain": ".getpostman.com",
+							"path": "/",
+							"secure": false,
+							"session": false,
+							"value": "yes",
+							"key": "getpostmanlogin"
+						},
+						{
+							"expires": "Fri Apr 15 2016 13:14:58 GMT+0200 (stredoeurópsky letný čas)",
+							"hostOnly": false,
+							"httpOnly": false,
+							"domain": ".getpostman.com",
+							"path": "/",
+							"secure": false,
+							"session": false,
+							"value": "df0c0256028d7ec4d641f766104a9571a8e249685bbc667d7cee030bbf44d3209495c70c03248e31e678a93812591d5e12187a8e99bf6bc5e80c40903f6ff6226938f24e413c0ffa613a7372064ec44a8594e8d3ede6945e34394f369573feeebc4a73a3e24b8c9ac18a53704addb5fd3f71f1ede488ff551feb059e9c1fb208164814e45e0312c4df8ea6e83c26702f42ae634c6afbe82d57c857bbf5598b5527961c1c28688dc2580070a4389f0cf4ec0a179b5b9c11b2ecbaa5460d374065bf5c7a3add9505df0fa89acb9f227f05ed2d4c6b58c39d6d728bd49f6f323ae67d4a75882aa7682f5d6fc5b981ba411d94aa93970bfaefa1953a73e440d50d012b5f288975c888e2345ee7777e746fb5aed3a7b2dbc087c6456621aa78c24a3c17c5f96cf59844933249a352f631e2008cffac6faf06d0e253dcc01cf0067bf56c1fbc5ed61fec1861b60c5accf35ffc2e56154a113004fa1db9d7171c3af8fc063918554092f5",
+							"key": "postman.sid"
+						},
+						{
+							"expires": "Sat Mar 31 2018 13:16:21 GMT+0200 (stredoeurópsky letný čas)",
+							"hostOnly": false,
+							"httpOnly": false,
+							"domain": ".echo.getpostman.com",
+							"path": "/",
+							"secure": false,
+							"session": false,
+							"value": "GA1.3.1703443399.1459422978",
+							"key": "_ga"
+						},
+						{
+							"expires": "Invalid Date",
+							"hostOnly": true,
+							"httpOnly": true,
+							"domain": "echo.getpostman.com",
+							"path": "/",
+							"secure": false,
+							"session": true,
+							"value": "s%3AvuHU0EKeDbyNjVrEc7U30dMPzVu8CRaD.GOV1H9olcVzXqrwqP%2BC%2B6MVj2UczXivcN00jgPoDYfs",
+							"key": "sails.sid"
+						}
+					],
+					"body": "{\"status\":200}"
+				}
+			]
+		}
+	]
+}
